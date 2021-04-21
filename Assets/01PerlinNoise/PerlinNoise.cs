@@ -1,68 +1,53 @@
-﻿using System;
-using UnityEngine;
-
+﻿using UnityEngine;
 
 public static class PerlinNoise
 {
     static float interpolate(float a0, float a1, float w)
     {
-        /* // You may want clamping by inserting:
-         * if (0.0 > w) return a0;
-         * if (1.0 < w) return a1;
-         */
-        return (a1 - a0) * w + a0;
-        /* // Use this cubic interpolation [[Smoothstep]] instead, for a smooth appearance:
-         * return (a1 - a0) * (3.0 - w * 2.0) * w * w + a0;
-         *
-         * // Use [[Smootherstep]] for an even smoother result with a second derivative equal to zero on boundaries:
-         * return (a1 - a0) * ((w * (w * 6.0 - 15.0) + 10.0) * w * w * w) + a0;
-         */
-    }
-
-    static Vector2 randomGradient(int ix, int iy)
-    {
-        double random = 2920f * Mathf.Sin(ix * 21942 + iy * 171324 + 8912) * Math.Cos(ix * 23157 * iy * 217832 + 9758);
-        return new Vector2(Mathf.Sin((float) random), Mathf.Cos((float) random));
+        //线性插值
+        //return (a1 - a0) * w + a0;
+        
+        //hermite插值
+        return Mathf.SmoothStep(a0, a1, w);
     }
 
 
-    static float dotGridGradient(int ix, int iy, float x, float y)
+    static Vector2 randomVector2(Vector2 p)
     {
-        // Get gradient from integer coordinates
-        Vector2 gradient = randomGradient(ix, iy);
+        float random = Mathf.Sin(666+p.x*5678 + p.y*1234 )*4321;
+        return new Vector2(Mathf.Sin(random), Mathf.Cos(random));
+    }
 
-        // Compute the distance vector
-        float dx = x - (float) ix;
-        float dy = y - (float) iy;
 
-        // Compute the dot-product
-        return (dx * gradient.x + dy * gradient.y);
+    static float dotGridGradient(Vector2 p1, Vector2 p2)
+    {
+        Vector2 gradient = randomVector2(p1);
+        Vector2 offset = p2 - p1;
+        return Vector2.Dot(gradient, offset) / 2 + 0.5f;
     }
 
 
     public static float perlin(float x, float y)
     {
-        int x0 = 0;
-        int x1 = 1;
-        int y0 = 0;
-        int y1 = 1;
+        //声明二维坐标
+        Vector2 pos = new Vector2(x, y);
+        //声明该点所处的'格子'的四个顶点坐标
+        Vector2 rightUp = new Vector2((int) x + 1, (int) y + 1);
+        Vector2 rightDown = new Vector2((int) x + 1, (int) y);
+        Vector2 leftUp = new Vector2((int) x, (int) y + 1);
+        Vector2 leftDown = new Vector2((int) x, (int) y);
 
+        //计算x上的插值
+        float v1 = dotGridGradient(leftDown, pos);
+        float v2 = dotGridGradient(rightDown, pos);
+        float interpolation1 = interpolate(v1, v2, x - (int) x);
 
-        float sx = x;
-        float sy = y;
+        //计算y上的插值
+        float v3 = dotGridGradient(leftUp, pos);
+        float v4 = dotGridGradient(rightUp, pos);
+        float interpolation2 = interpolate(v3, v4, x - (int) x);
 
-        // Interpolate between grid point gradients
-        float n0, n1, ix0, ix1, value;
-
-        n0 = dotGridGradient(x0, y0, x, y);
-        n1 = dotGridGradient(x1, y0, x, y);
-        ix0 = interpolate(n0, n1, sx);
-
-        n0 = dotGridGradient(x0, y1, x, y);
-        n1 = dotGridGradient(x1, y1, x, y);
-        ix1 = interpolate(n0, n1, sx);
-
-        value = interpolate(ix0, ix1, sy);
+        float value = interpolate(interpolation1, interpolation2, y - (int) y);
         return value;
     }
 }

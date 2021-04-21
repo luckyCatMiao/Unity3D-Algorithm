@@ -7,7 +7,7 @@ namespace _01PerlinNoise
     {
         void Start()
         {
-            Texture2D texture = new Texture2D(128, 128);
+            Texture2D texture = new Texture2D(1024, 1024);
 
             this.GetComponent<Renderer>().material.mainTexture = texture;
 
@@ -15,7 +15,7 @@ namespace _01PerlinNoise
             {
                 for (int x = 0; x < texture.width; x++)
                 {
-                    float grayscale = PerlinNoise.perlin(x / 128f, y / 128f);
+                    float grayscale = PerlinNoise.perlin(x/16f , y/16f );
                     texture.SetPixel(x, y, new Color(grayscale,grayscale,grayscale));
                 }
             }
