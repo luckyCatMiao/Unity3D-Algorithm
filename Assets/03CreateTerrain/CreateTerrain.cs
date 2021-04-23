@@ -10,7 +10,7 @@ public class CreateTerrain : MonoBehaviour
         {
             for (int x = 0; x < 128; x++)
             {
-                float grayscale = PerlinNoise.noise(x / (float) 16, z / (float) 16);
+                float grayscale = ValueNoise.noise(x / (float) 16, z / (float) 16);
                 var cube=GameObject.CreatePrimitive(PrimitiveType.Cube);
                 int cubeY = (int) (grayscale * 20);
                 cube.transform.position = new Vector3(x, cubeY, z);
