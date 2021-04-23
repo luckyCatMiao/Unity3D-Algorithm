@@ -4,22 +4,19 @@ using UnityEngine;
 
 namespace Algorithm
 {
-    public class CreatePerlinNoiseTex : MonoBehaviour
+    public class CreateValueNoise : MonoBehaviour
     {
-        [Range(1,512)]
-        public int cellSize=16;
+        [Range(1, 512)] public int cellSize=16;
 
-        void Start()
+        private void Start()
         {
-            Texture2D texture = new Texture2D(1024, 1024);
-
+            Texture2D texture = new Texture2D(128, 128);
             this.GetComponent<Renderer>().material.mainTexture = texture;
-
             for (int y = 0; y < texture.height; y++)
             {
                 for (int x = 0; x < texture.width; x++)
                 {
-                    float grayscale = PerlinNoise.noise(x / (float) cellSize, y / (float) cellSize);
+                    float grayscale = ValueNoise.noise(x / (float) cellSize, y / (float) cellSize);
                     texture.SetPixel(x, y, new Color(grayscale, grayscale, grayscale));
                 }
             }
@@ -28,11 +25,10 @@ namespace Algorithm
             saveTexture2D(texture, "tex");
         }
 
-
         void saveTexture2D(Texture2D texture, string fileName)
         {
             var bytes = texture.EncodeToPNG();
-            var file = File.Create(Application.dataPath + "/01PerlinNoise/" + fileName + ".png");
+            var file = File.Create(Application.dataPath + "/02ValueNoise/" + fileName + ".png");
             var binary = new BinaryWriter(file);
             binary.Write(bytes);
             file.Close();
