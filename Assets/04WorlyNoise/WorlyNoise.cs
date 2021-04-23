@@ -24,5 +24,20 @@ namespace Algorithm
             float random = Mathf.Sin(666 + p.x * 5678 + p.y * 1234) * 4321;
             return new Vector2(p.x+Mathf.Sin(random)/2+0.5f, p.y+Mathf.Cos(random)/2+0.5f);
         }
+        
+        public static float fbmNoise(float x, float y,int layer)
+        {
+            float value =0;
+            float frequency = 1;
+            float amplitude = 0.5f;
+            for(int i = 0; i < layer; i++)
+            {
+                value += noise(x*frequency,y*frequency) * amplitude;
+                frequency *= 2;
+                amplitude *= 0.5f;
+            }
+
+            return value;
+        }
     }
 }

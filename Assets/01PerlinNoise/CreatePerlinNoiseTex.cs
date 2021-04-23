@@ -11,7 +11,7 @@ namespace Algorithm
 
         void Start()
         {
-            Texture2D texture = new Texture2D(1024, 1024);
+            Texture2D texture = new Texture2D(512, 512);
 
             this.GetComponent<Renderer>().material.mainTexture = texture;
 
@@ -19,7 +19,7 @@ namespace Algorithm
             {
                 for (int x = 0; x < texture.width; x++)
                 {
-                    float grayscale = PerlinNoise.noise(x / (float) cellSize, y / (float) cellSize);
+                    float grayscale = PerlinNoise.fbmNoise(x / (float) cellSize, y / (float) cellSize,8);
                     texture.SetPixel(x, y, new Color(grayscale, grayscale, grayscale));
                 }
             }

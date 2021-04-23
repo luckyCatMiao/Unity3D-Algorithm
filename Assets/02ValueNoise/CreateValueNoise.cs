@@ -10,13 +10,13 @@ namespace Algorithm
 
         private void Start()
         {
-            Texture2D texture = new Texture2D(128, 128);
+            Texture2D texture = new Texture2D(512, 512);
             this.GetComponent<Renderer>().material.mainTexture = texture;
             for (int y = 0; y < texture.height; y++)
             {
                 for (int x = 0; x < texture.width; x++)
                 {
-                    float grayscale = ValueNoise.noise(x / (float) cellSize, y / (float) cellSize);
+                    float grayscale = ValueNoise.fbmNoise(x / (float) cellSize, y / (float) cellSize,8);
                     texture.SetPixel(x, y, new Color(grayscale, grayscale, grayscale));
                 }
             }

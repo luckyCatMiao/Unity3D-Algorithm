@@ -20,5 +20,23 @@ namespace Algorithm
         }
 
         private static float hash(Vector2 v) => (Mathf.Cos(Mathf.Sin(1234 + v.x * 123 + v.y * 353) * 12334)+1)/2;
+        
+        
+        public static float fbmNoise(float x, float y,int layer)
+        {
+            float value =0;
+            float frequency = 1;
+            float amplitude = 0.5f;
+            for(int i = 0; i < layer; i++)
+            {
+                value += noise(x*frequency,y*frequency) * amplitude;
+                frequency *= 2;
+                amplitude *= 0.5f;
+            }
+
+            return value;
+        }
     }
+    
+    
 }

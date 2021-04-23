@@ -16,7 +16,7 @@ namespace Algorithm
             {
                 for (int x = 0; x < texture.width; x++)
                 {
-                    float grayscale = WorlyNoise.noise(x / (float) cellSize, y / (float) cellSize);
+                    float grayscale = WorlyNoise.fbmNoise(x / (float) cellSize, y / (float) cellSize,8);
                     texture.SetPixel(x, y, new Color(grayscale, grayscale, grayscale));
                 }
             }

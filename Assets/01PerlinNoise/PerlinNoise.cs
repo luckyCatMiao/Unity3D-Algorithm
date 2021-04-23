@@ -28,6 +28,20 @@ namespace Algorithm
             return Vector2.Dot(gradient, offset) / 2 + 0.5f;
         }
 
+        public static float fbmNoise(float x, float y,int layer)
+        {
+            float value =0;
+            float frequency = 1;
+            float amplitude = 0.5f;
+            for(int i = 0; i < layer; i++)
+            {
+                value += noise(x*frequency,y*frequency) * amplitude;
+                frequency *= 2;
+                amplitude *= 0.5f;
+            }
+
+            return value;
+        }
 
         public static float noise(float x, float y)
         {
