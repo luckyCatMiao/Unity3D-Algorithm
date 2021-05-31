@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd981a112d840d39c579404951a04da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cellSize: 4
+  cellSize: 64
 --- !u!33 &73758717
 MeshFilter:
   m_ObjectHideFlags: 0

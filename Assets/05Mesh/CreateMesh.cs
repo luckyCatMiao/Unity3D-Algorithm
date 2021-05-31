@@ -6,8 +6,8 @@ namespace Algorithm
     {
         private void Start()
         {
+            //var mesh = createTriMesh();
             var mesh = createNoiseMesh(256);
-            mesh.RecalculateNormals();
 
             GameObject gameObject = new GameObject();
             gameObject.AddComponent<MeshFilter>();
@@ -26,7 +26,7 @@ namespace Algorithm
             {
                 for (int x = 0; x < size; x++)
                 {
-                    var height = ValueNoise.fbmNoise(x/32f, y/32f,4) * 50;
+                    var height = PerlinNoise.fbmNoise(x/32f, y/32f,4) * 50;
                     vertexs[y * size + x] = new Vector3(x, height, y);
                 }
             }
@@ -70,6 +70,7 @@ namespace Algorithm
             
             
              mesh.triangles = triangles;
+             mesh.RecalculateNormals();
 
             return mesh;
         }
@@ -95,7 +96,7 @@ namespace Algorithm
                           new Vector2(1, 1)
                       };
             mesh.uv = uvs;
-            
+            mesh.RecalculateNormals();
             return mesh;
         }
     }
